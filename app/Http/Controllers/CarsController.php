@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cars;
+use App\Models\ValidationCars;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
@@ -68,13 +69,8 @@ class CarsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make(
-            $request->all(),
-            [
-                'name' => 'required | max:80',
-                'description' => 'required',
-                'model' => 'required | max:10 | min:2',
-                'date' => 'required | date_format: "Y-m-d"'
-            ]
+            $request->all(),    
+            ValidationCars::RULE_CAR
         );
 
         if ( $validator->fails())
